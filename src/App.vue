@@ -49,4 +49,8 @@ export default {
       color: #5247e7
     }
   }
+
+  .container {
+    padding: 0 15px;
+  }
 </style>
