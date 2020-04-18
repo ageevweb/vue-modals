@@ -17,7 +17,6 @@
       </div>
     </div>
   </transition>
-  
 </template>
 
 <script>
@@ -29,7 +28,8 @@ export default {
     }
   },
   computed: {},
-  methods: {},
+  methods: {
+  },
   mounted() {
     document.body.addEventListener('keyup', e => {
       if(e.keyCode === 27) {

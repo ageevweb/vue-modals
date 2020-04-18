@@ -1,7 +1,8 @@
 <template lang="pug">
     modal(
-      title="third modal (validate)" 
+      title="Registration" 
       @close="$emit('close')"
+      @switchModal="$emit('switchModal')"
     )
       .div(slot="body")
         form(@submit.prevent="SubmitForm") 
@@ -25,7 +26,31 @@
               @change="$v.email.$touch()"  
             )
 
+          .form-item(:class="{errorInput: $v.password.$error}")
+            label password
+            p.error-text(v-if="!$v.password.required") failed is required !
+            p.error-text(v-if="!$v.password.minLength") password must have at least {{ $v.password.$params.minLength.min}} !
+            input(
+              type="password"
+              v-model="password"
+              :class="{error: $v.password.$error}"
+              @change="$v.password.$touch()"  
+            )
+          
+          .form-item(:class="{errorInput: $v.repeatPassword.$error}")
+            label repeat password
+            p.error-text(v-if="!$v.repeatPassword.sameAsPassword") passwords must be identical.
+
+            input(
+              type="password"
+              v-model="repeatPassword"
+              :class="{error: $v.email.repeatPassword}"
+              @change="$v.repeatPassword.$touch()"  
+            )
+
           button.btn.btnPrimary() submit
+
+          .modal-footer(@click="switchModal") to Authorisation
 </template>
 
 <script>
@@ -40,6 +65,8 @@ export default {
     return {
       name: '',
       email: '',
+      password: '',
+      repeatPassword: ''
     };
   },
   props: {},
@@ -50,7 +77,9 @@ export default {
       if(!this.$v.$invalid) {
         console.log({
           name: this.name,
-          email: this.email
+          email: this.email,
+          password: this.password,
+          repeatPassword: this.repeatPassword
         })
 
         this.name = '';
@@ -58,6 +87,16 @@ export default {
         this.$v.$reset();
         this.$emit('close')
       }
+    },
+    switchModal(){
+      this.name = '';
+      this.email = '';
+      this.password = '';
+      this.repeatPassword = '';
+
+
+      this.$v.$reset();
+      this.$emit('switchModal')
     }
   },
   validations: {
@@ -68,6 +107,13 @@ export default {
     email: {
       required,
       email
+    },
+    password: {
+      required,
+      minLength: minLength(6)
+    },
+    repeatPassword: {
+      sameAsPassword: sameAs('password')
     }
   },
   watch: {},

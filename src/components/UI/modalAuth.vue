@@ -1,7 +1,8 @@
 <template lang="pug">
     modal(
-      title="authorisation" 
+      title="Authorisation" 
       @close="$emit('close')"
+      @switchModal="$emit('switchModal')"
     )
       .div(slot="body")
         form(@submit.prevent="SubmitForm") 
@@ -28,10 +29,12 @@
             )
 
           button.btn.btnPrimary() submit
+
+          .modal-footer(@click="switchModal") to Registration
 </template>
 
 <script>
-import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
+import { required, minLength, email } from 'vuelidate/lib/validators'
 import modal from '@/components/modal.vue';
 
 export default {
@@ -50,17 +53,21 @@ export default {
     SubmitForm() {
       this.$v.$touch();
       if(!this.$v.$invalid) {
-        console.log({
-          password: this.password,
-          email: this.email
-        })
+        console.log(this.$v)
 
         this.password = '';
         this.email = '';
         this.$v.$reset();
         this.$emit('close')
       }
+    },
+    switchModal(){
+      this.password = '';
+      this.email = '';
+      this.$v.$reset();
+      this.$emit('switchModal')
     }
+    
   },
   validations: {
     password: {

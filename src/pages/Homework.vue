@@ -5,10 +5,18 @@
         h1 homework
 
         button.btn.btnPrimary(@click="modalAuth = true") authorisation
-        modalAuth(v-show="modalAuth" @close="modalAuth = false")
+        modalAuth(
+          v-show="modalAuth" 
+          @close="modalAuth = false" 
+          @switchModal="switchModal"
+        )
 
         button.btn.btnPrimary(@click="modalRegistration = true") registration
-        modalRegistration(v-show="modalRegistration" @close="modalRegistration = false")
+        modalRegistration(
+          v-show="modalRegistration" 
+          @close="modalRegistration = false"
+          @switchModal="switchModal"
+        )
 
 </template>
 
@@ -31,7 +39,12 @@ export default {
   },
   props: {},
   computed: {},
-  methods: {},
+  methods: {
+    switchModal(){
+      this.modalAuth = !this.modalAuth
+      this.modalRegistration = ! this.modalRegistration
+    }
+  },
   watch: {},
   mounted() {},
 };
@@ -39,11 +52,18 @@ export default {
 
 <style lang="scss">
 
+.modal-footer{
+  margin-top: 20px;
+  border-top: 1px solid #DCDFE6;
+  padding-top: 10px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 h1{
   font-size: 30px !important;
 }
 .btn{
-  margin-right: 30px;
-  margin-top: 30px;
+  // margin-top: 30px;
 }
 </style>
