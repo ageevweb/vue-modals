@@ -53,7 +53,10 @@ export default {
     SubmitForm() {
       this.$v.$touch();
       if(!this.$v.$invalid) {
-        console.log(this.$v)
+        console.log({
+          email: this.email,
+          password: this.password
+        })
 
         this.password = '';
         this.email = '';
@@ -79,7 +82,16 @@ export default {
       email
     }
   },
-  watch: {},
+
+  watch: {
+    email: function() {
+      this.$emit('showV', this.$v)
+    },
+    password: function() {
+      this.$emit('showV', this.$v)
+    }
+
+  },
   mounted() {},
 };
 

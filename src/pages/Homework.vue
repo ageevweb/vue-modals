@@ -7,16 +7,19 @@
         button.btn.btnPrimary(@click="modalAuth = true") authorisation
         modalAuth(
           v-show="modalAuth" 
-          @close="modalAuth = false" 
+          @showV="showV"
+          @close="close"
           @switchModal="switchModal"
         )
 
         button.btn.btnPrimary(@click="modalRegistration = true") registration
         modalRegistration(
+          @showV2="showV2"
           v-show="modalRegistration" 
-          @close="modalRegistration = false"
+          @close="close"
           @switchModal="switchModal"
         )
+        
 
 </template>
 
@@ -34,7 +37,10 @@ export default {
   data() {
     return {
       modalAuth: false,
-      modalRegistration: false
+      modalRegistration: false,
+      vuelidAuth: null,
+      vuelidRegistr: null,
+
     };
   },
   props: {},
@@ -43,7 +49,32 @@ export default {
     switchModal(){
       this.modalAuth = !this.modalAuth
       this.modalRegistration = ! this.modalRegistration
-    }
+    },
+    showV(v) {
+      this.vuelidAuth = v;
+    },
+    showV2(v){
+      this.vuelidRegistr = v;
+    },
+
+    close(){
+      this.modalAuth = false;
+      this.modalRegistration = false;
+
+      if(this.vuelidAuth !== null ) {
+        this.vuelidAuth.email.$model = '';
+        this.vuelidAuth.password.$model = '';
+        this.vuelidAuth.$reset();
+      }
+
+      if(this.vuelidRegistr !== null ) {
+        this.vuelidRegistr.email.$model = '';
+        this.vuelidRegistr.password.$model = '';
+        this.vuelidRegistr.repeatPassword.$model = '';
+        this.vuelidRegistr.name.$model = '';
+        this.vuelidRegistr.$reset();
+      }
+    },
   },
   watch: {},
   mounted() {},
@@ -64,6 +95,6 @@ h1{
   font-size: 30px !important;
 }
 .btn{
-  // margin-top: 30px;
+  margin: 5px;
 }
 </style>

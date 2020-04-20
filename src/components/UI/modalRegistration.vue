@@ -116,7 +116,20 @@ export default {
       sameAsPassword: sameAs('password')
     }
   },
-  watch: {},
+  watch: {
+    email: function() {
+      this.$emit('showV2', this.$v)
+    },
+    password: function() {
+      this.$emit('showV2', this.$v)
+    },
+    name: function() {
+      this.$emit('showV2', this.$v)
+    },
+    repeatPassword:function() {
+      this.$emit('showV2', this.$v)
+    },
+  },
   mounted() {},
 };
 
